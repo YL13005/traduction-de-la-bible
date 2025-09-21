@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projet Traduction de la Bible - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: #666;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform: scale(0.9);
+            animation: popIn 0.6s ease-out forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+        }
+
+        @keyframes popIn {
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .stat-card:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .stat-card:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .stat-card:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .stat-card:nth-child(4) {
+            animation-delay: 0.8s;
+        }
+
+        .stat-value {
+            font-size: 3em;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-label {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .progress-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            border-radius: 25px;
+            height: 30px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 25px;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            transition: width 2s ease-out;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        .milestones {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .milestone {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 3px solid #4ecdc4;
+        }
+
+        .milestone.achieved {
+            border-color: #2ecc71;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .milestone h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .milestone p {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .controls {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .input-group input {
+            padding: 15px;
+            font-size: 1.1em;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            width: 200px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #4ecdc4;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .emoji {
+            font-size: 2em;
+            margin: 10px;
+        }
+
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff6b6b;
+            animation: confetti-fall 3s linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌟 Projet Traduction de la Bible 🌟</h1>
+        <p>Ensemble, nous rendons la Parole de Dieu accessible à tous !</p>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value" id="totalAmount">0</div>
+            <div class="stat-label">💰 Euros collectés</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-value" id="versesCompleted">0</div>
+            <div class="stat-label">📖 Versets traduits</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-value" id="chaptersCompleted">0</div>
+            <div class="stat-label">📚 Chapitres traduits</div>
+        </div>
+
+
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-title">🎯 Progrès vers le prochain verset</div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="verseProgress" style="width: 0%"></div>
+        </div>
+        <div class="progress-text" id="verseProgressText">0€ / 35€</div>
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-title">🏆 Progrès vers le prochain chapitre</div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="chapterProgress" style="width: 0%"></div>
+        </div>
+        <div class="progress-text" id="chapterProgressText">0€ / 1500€</div>
+    </div>
+
+    <div class="milestones">
+        <div class="milestone" id="milestone1">
+            <h3>🥇 Premier verset</h3>
+            <p>35€ collectés</p>
+        </div>
+
+        <div class="milestone" id="milestone2">
+            <h3>🌟 10 versets</h3>
+            <p>350€ collectés</p>
+        </div>
+
+        <div class="milestone" id="milestone3">
+            <h3>🎉 Premier chapitre</h3>
+            <p>1500€ collectés</p>
+        </div>
+
+        <div class="milestone" id="milestone4">
+            <h3>🚀 Super équipe !</h3>
+            <p>3000€ collectés</p>
+        </div>
+    </div>
+
+    <div class="controls">
+        <h2> Ajouter une offrande</h2>
+        <div class="input-group">
+            <label for="donationInput">Montant du don (€) :</label>
+            <input type="number" id="donationInput" placeholder="25" min="1">
+        </div>
+
+        <button class="btn" onclick="addDonation()">
+            <span class="emoji">💝</span> Ajouter l'offrande
+        </button>
+
+    </div>
+</div>
+
+<div class="celebration" id="celebration"></div>
+
+<script>
+    // Prix des objectifs
+    const VERSE_PRICE = 35;
+    const CHAPTER_PRICE = 1500;
+
+    // Données stockées en mémoire
+    let gameData = {
+        totalAmount: 0,
+        startDate: new Date().toDateString()
+    };
+
+    // Initialiser le dashboard
+    function init() {
+        updateDisplay();
+    }
+
+    function addDonation() {
+        const input = document.getElementById('donationInput');
+        const amount = parseInt(input.value);
+
+        if (amount && amount > 0) {
+            const oldVersesCompleted = Math.floor(gameData.totalAmount / VERSE_PRICE);
+            const oldChaptersCompleted = Math.floor(gameData.totalAmount / CHAPTER_PRICE);
+
+            gameData.totalAmount += amount;
+
+            const newVersesCompleted = Math.floor(gameData.totalAmount / VERSE_PRICE);
+            const newChaptersCompleted = Math.floor(gameData.totalAmount / CHAPTER_PRICE);
+
+            // Vérifier les nouveaux accomplissements
+            if (newVersesCompleted > oldVersesCompleted) {
+                celebrate('🎉 Nouveau verset traduit ! 📖');
+            }
+
+            if (newChaptersCompleted > oldChaptersCompleted) {
+                celebrate('🏆 NOUVEAU CHAPITRE TRADUIT ! 🎊');
+                createConfetti();
+            }
+
+            updateDisplay();
+            input.value = '';
+
+            // Animation du bouton
+            const btn = event.target;
+            btn.style.transform = 'scale(1.1)';
+            setTimeout(() => btn.style.transform = 'scale(1)', 200);
+        }
+    }
+
+    function updateDisplay() {
+        const versesCompleted = Math.floor(gameData.totalAmount / VERSE_PRICE);
+        const chaptersCompleted = Math.floor(gameData.totalAmount / CHAPTER_PRICE);
+        // const daysActive = Math.floor((new Date() - new Date(gameData.startDate)) / (1000 * 60 * 60 * 24)) + 1;
+
+        // Mise à jour des statistiques
+        document.getElementById('totalAmount').textContent = gameData.totalAmount + '€';
+        document.getElementById('versesCompleted').textContent = versesCompleted;
+        document.getElementById('chaptersCompleted').textContent = chaptersCompleted;
+        // document.getElementById('daysActive').textContent = daysActive;
+
+        // Progrès vers le prochain verset
+        const verseRemainder = gameData.totalAmount % VERSE_PRICE;
+        const verseProgressPercent = (verseRemainder / VERSE_PRICE) * 100;
+        document.getElementById('verseProgress').style.width = verseProgressPercent + '%';
+        document.getElementById('verseProgressText').textContent =
+            `${verseRemainder}€ / ${VERSE_PRICE}€ (${VERSE_PRICE - verseRemainder}€ restants)`;
+
+        // Progrès vers le prochain chapitre
+        const chapterRemainder = gameData.totalAmount % CHAPTER_PRICE;
+        const chapterProgressPercent = (chapterRemainder / CHAPTER_PRICE) * 100;
+        document.getElementById('chapterProgress').style.width = chapterProgressPercent + '%';
+        document.getElementById('chapterProgressText').textContent =
+            `${chapterRemainder}€ / ${CHAPTER_PRICE}€ (${CHAPTER_PRICE - chapterRemainder}€ restants)`;
+
+        // Mise à jour des jalons
+        updateMilestones();
+    }
+
+    function updateMilestones() {
+        const milestones = [
+            {id: 'milestone1', target: 35},
+            {id: 'milestone2', target: 350},
+            {id: 'milestone3', target: 1500},
+            {id: 'milestone4', target: 3000}
+        ];
+
+        milestones.forEach(milestone => {
+            const element = document.getElementById(milestone.id);
+            if (gameData.totalAmount >= milestone.target) {
+                element.classList.add('achieved');
+            } else {
+                element.classList.remove('achieved');
+            }
+        });
+    }
+
+    function celebrate(message) {
+        // Créer un message de célébration
+        const celebrationMsg = document.createElement('div');
+        celebrationMsg.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+                color: white;
+                padding: 30px;
+                border-radius: 20px;
+                font-size: 2em;
+                text-align: center;
+                z-index: 2000;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                animation: celebrationPop 3s ease-out forwards;
+            `;
+
+        celebrationMsg.innerHTML = message;
+        document.body.appendChild(celebrationMsg);
+
+        // Style d'animation
+        const style = document.createElement('style');
+        style.textContent = `
+                @keyframes celebrationPop {
+                    0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+                    20% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+                    80% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+                    100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+                }
+            `;
+        document.head.appendChild(style);
+
+        // Supprimer après l'animation
+        setTimeout(() => {
+            document.body.removeChild(celebrationMsg);
+            document.head.removeChild(style);
+        }, 3000);
+    }
+
+    function createConfetti() {
+        const celebration = document.getElementById('celebration');
+        const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#f39c12', '#e74c3c'];
+
+        for (let i = 0; i < 50; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.animationDelay = Math.random() * 2 + 's';
+            celebration.appendChild(confetti);
+
+            setTimeout(() => {
+                if (celebration.contains(confetti)) {
+                    celebration.removeChild(confetti);
+                }
+            }, 3000);
+        }
+    }
+
+    function resetData() {
+        if (confirm('Êtes-vous sûr de vouloir recommencer le projet ?')) {
+            gameData = {
+                totalAmount: 0,
+                startDate: new Date().toDateString()
+            };
+            updateDisplay();
+        }
+    }
+
+    // Gestion de l'entrée
+    document.getElementById('donationInput').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            addDonation();
+        }
+    });
+
+    // Initialiser au chargement
+    init();
+</script>
+</body>
+</html>
