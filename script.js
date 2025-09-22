@@ -49,23 +49,21 @@ function addDonation() {
 function updateDisplay() {
     const versesCompleted = Math.floor(gameData.totalAmount / VERSE_PRICE);
     const chaptersCompleted = Math.floor(gameData.totalAmount / CHAPTER_PRICE);
-    // const daysActive = Math.floor((new Date() - new Date(gameData.startDate)) / (1000 * 60 * 60 * 24)) + 1;
 
     // Mise à jour des statistiques
     document.getElementById('totalAmount').textContent = gameData.totalAmount + '€';
     document.getElementById('versesCompleted').textContent = versesCompleted;
     document.getElementById('chaptersCompleted').textContent = chaptersCompleted;
-    // document.getElementById('daysActive').textContent = daysActive;
 
     // Progrès vers le prochain verset
-    const verseRemainder = gameData.totalAmount % VERSE_PRICE;
+    const verseRemainder = Number.parseFloat(gameData.totalAmount % VERSE_PRICE).toFixed(2);
     const verseProgressPercent = (verseRemainder / VERSE_PRICE) * 100;
     document.getElementById('verseProgress').style.width = verseProgressPercent + '%';
     document.getElementById('verseProgressText').textContent =
         `${verseRemainder}€ / ${VERSE_PRICE}€ (${VERSE_PRICE - verseRemainder}€ restants)`;
 
     // Progrès vers le prochain chapitre
-    const chapterRemainder = gameData.totalAmount % CHAPTER_PRICE;
+    const chapterRemainder = Number.parseFloat(gameData.totalAmount % CHAPTER_PRICE).toFixed(2);
     const chapterProgressPercent = (chapterRemainder / CHAPTER_PRICE) * 100;
     document.getElementById('chapterProgress').style.width = chapterProgressPercent + '%';
     document.getElementById('chapterProgressText').textContent =
