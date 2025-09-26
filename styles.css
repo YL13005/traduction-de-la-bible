@@ -292,3 +292,21 @@ body {
         opacity: 0;
     }
 }
+
+#fullscreen-btn {
+    background: transparent;
+    border: none;
+    font-size: .6em;
+    cursor: pointer;
+    color: #888;
+    transition: color 0.2s, transform 0.2s;
+}
+
+#fullscreen-btn:hover {
+    color: #333;
+    transform: scale(1.1);
+}
+
+#fullscreen-btn:focus {
+    outline: none;
+}

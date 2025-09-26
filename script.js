@@ -169,5 +169,18 @@ document.getElementById('donationInput').addEventListener('keypress', function (
     }
 });
 
+const btn = document.getElementById("fullscreen-btn");
+
+btn.addEventListener("click", () => {
+    const element = document.documentElement; // la page entière
+    if (element.requestFullscreen) {
+        element.requestFullscreen();
+    } else if (element.webkitRequestFullscreen) { // Safari
+        element.webkitRequestFullscreen();
+    } else if (element.msRequestFullscreen) { // IE/Edge anciens
+        element.msRequestFullscreen();
+    }
+});
+
 // Initialiser au chargement
 init();
