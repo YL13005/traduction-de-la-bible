@@ -60,7 +60,7 @@ function updateDisplay() {
     const verseProgressPercent = (verseRemainder / VERSE_PRICE) * 100;
     document.getElementById('verseProgress').style.width = verseProgressPercent + '%';
     document.getElementById('verseProgressText').textContent =
-        `${verseRemainder}€ / ${VERSE_PRICE}€ (${VERSE_PRICE - verseRemainder}€ restants)`;
+        `${verseRemainder}€ / ${VERSE_PRICE}€ (${(VERSE_PRICE - verseRemainder).toFixed(2)}€ restants)`;
 
     // Progrès vers le prochain chapitre
     const chapterRemainder = Number.parseFloat(gameData.totalAmount % CHAPTER_PRICE).toFixed(2);
