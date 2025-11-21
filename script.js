@@ -4,7 +4,7 @@ const CHAPTER_PRICE = 1500;
 
 // Données stockées en mémoire
 let gameData = {
-    totalAmount: 179.19,
+    totalAmount: 209.39,
     startDate: new Date().toDateString()
 };
 
