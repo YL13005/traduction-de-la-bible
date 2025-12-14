@@ -2,7 +2,7 @@
 const VERSE_PRICE = 35;
 const CHAPTER_PRICE = 1500;
 
-// Données stockées en mémoire erratum
+// Try to fix
 let gameData = {
     totalAmount: 282.07,
     startDate: new Date().toDateString()
