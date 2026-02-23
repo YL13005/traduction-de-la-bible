@@ -4,7 +4,7 @@ const CHAPTER_PRICE = 1500;
 
 // Try to fix
 let gameData = {
-    totalAmount: 400.21,
+    totalAmount: 434.21,
     startDate: new Date().toDateString()
 };
 
